@@ -82,3 +82,35 @@ def makeDic(res):
     
     
     return metadata
+
+
+def tdecon(result, bago, huri):
+    var1 = result.split(bago)
+    var2 = var1[1].split(huri)
+    var3 = var2[0].replace("\x1e", "")
+    return var3
+
+
+def tmakeDic(res):
+    title = tdecon(res, "<001>", "<002>")
+    author = tdecon(res, "<002>", "<003>")
+    institution = tdecon(res, "<003>", "<004>")
+    kuros = tdecon(res, "<004>", "<005>")
+    taon = tdecon(res, "<005>", "<006>")
+    info = tdecon(res, "<007>", "<008>")
+    barcode = tdecon(res, "<008>", "<009>")
+    subject = tdecon(res, "<0012>", "<0013>")
+    abstract = tdecon(res, "<0013>", "<0014>")
+    metadata = {
+        "Title": title,
+        "Author": author,
+        "Institution": institution,
+        "Course": kuros,
+        "Year": taon,
+        "Info": info,
+        "Barcode": barcode,
+        "Subject": subject,
+        "Abstract": abstract
+    }
+   
+    return metadata
