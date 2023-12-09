@@ -1,0 +1,42 @@
+<001>Notes, formulas, and solved problems in hydraulics Part II
+<002>
+<003>
+<004>
+<005>
+<006>
+<007>Asin, Ricardo C. ( compiler )
+<008>National book development board
+<009>Manila
+<0010>Tru-Copy Publishing House
+<0011>1999
+<0012>
+<0013>134 p.
+<0014>
+<0015>21 cm.
+<0016>
+<0017>
+<0018>
+<0019>9717730032
+<0020>Hydraulics-Notes, formula, solved problems
+<0021>
+<0022>
+<0023>
+<0024>CIR
+<0025>GC-HYD 627 N66n 1999
+<0026>CBSUA-MLIB00000716; CBSUA-MLIB00000681; CBSUA-MLIB00000759
+<0027>English
+<0028>GC-HYD - Circulation
+<0029>21095; 21093
+<0030>1
+<0031>1
+<0032>0
+<0033>
+<0034>
+<0035>
+<0036>0
+<0037>
+<0038>
+<0039>Text
+<0040>Unmediated
+<0041>Volume
+<0042>
