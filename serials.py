@@ -1,7 +1,5 @@
-
 import random
 from pprint import pprint
-
 from db.ihsdb import *
 from db.pmasterdb import *
 
@@ -23,49 +21,42 @@ if __name__ == "__main__":
     october = [2,3,4,5,6,9,10,11,12,13,16,17,18,19,20,23,24,25,26,27,30,31]
     november = [3,6,7,8,9,10,13,14,15,16,17,20,21,22,23,24,28,29,30]
     hour = [7,8,9,10,11,12,13,14,15]
+   
     
- 
 
     try:
-        for index, _ in enumerate(range(1), start=1):
-            selected_number = random.choice(november)
+        for index, _ in enumerate(range(20), start=1):
+            selected_number = random.choice(sept)
             selhour = random.choice(hour)
             minute = random.randint(1, 45)
-            print(f"month {index}: day {selected_number} hh:mm:ss {selhour} : {minute} : {minute}")
-            datelog = "2023-11-" + str(selected_number) + " " + str(selhour) + ":" + str(minute) + ":" + str(minute)
+            print(f"instance {index}: day {selected_number} hh:mm:ss {selhour} : {minute} : {minute}")
+            datelog = "2023-9-" + str(selected_number) + " " + str(selhour) + ":" + str(minute) + ":" + str(minute)
 
-            # Example: Execute a simple query
-            query0 = "SELECT * FROM db_a84cf7_cbsua.serials AS s JOIN db_a84cf7_cbsua.serial_title AS st ON s.code = st.code WHERE RAND() <= 0.01 ORDER BY RAND()  LIMIT 1;"
-            query = "SELECT Date_Year,Volume,serials.Code,serials.accession,Serial_Title,ISSN,Agent,Subject FROM serials left join  serial_title on serials.code = serial_title.code limit 1;"
+            query0 = "SELECT * FROM serials order by rand() limit 1"
+            query = "SELECT Date_Year, Volume,s.code,s.Date_Received, st.Serial_Title ,st.ISSN,st.Agent,Subject,s.volume , s.accession FROM serials as s left join serial_title as st on s.code = st.code WHERE RAND() <= 0.01 order by rand() limit 1"
             cursor.execute(query)
+            rows = cursor.fetchall()
+            #print(rows[0])
 
-            # Check if there are any rows
-            if cursor.rowcount > 0:
-                # Fetch all rows
-                rows = cursor.fetchall()
-                print(rows)
+            if not rows:
+                print(f"instance { index } empty" )
             else:
-                print("No rows found.")
+                try:
+                    #print(f"instance { index } not empty")
+                    columns = ('date_year',' copy',' kode',' Date_recieved',' title',' issn',' agent',' subject',' volume',' accession',' reg_date')
+                    values = (rows[0][0], rows[0][1],rows[0][2],rows[0][3],rows[0][4],rows[0][5],rows[0][6],rows[0][7],rows[0][8],rows[0][9], datelog)
+                    q =  f"INSERT INTO ssihs ({', '.join(columns)}) VALUES ({', '.join(['%s'] * len(values))})"
+                    ishcur.execute(q,values)
+                    ishconn.commit()
+                    print(f"instance { index } commit success")
+                except ishconn.Error as err:
+                    print(f"instance { index } commit error { err }")
+                
 
     except Exception as e:
         print(f"Error: {e}")
-
-            #rec1 = makeDic(rows[0][0])    
-            #print(rec1['Title'])  #to insert 
-            #{'Title': 'Planned change in farming systems: progress in on-farm research', 'Author': '', 'code1': 'GC-FMS', 'call_number': '630.72', 'katers': 'P6933', 'taon': '1991', 'barcode': 'MLIB00017655', 'location': 'GC-FMS - Circulation'}
-            #if not rec1:
-            #    print("metadata is empty")
-            #else:
-            #    q = "INSERT INTO ihubk (title, author, code1, call_number, katers, taon, barcode, location, reg_date ) VALUES ('"+ rec1['Title'] + "', '"+rec1['Author'] + "', '"+rec1['code1']+ "', '"+rec1['call_number']+ "', '"+rec1['katers']+ "', '"+rec1['taon']+ "', '"+rec1['barcode']+ "','"+rec1['location'] + "', '"+datelog+"');"
-                #print(q)
-            #    ishcur.execute(q)
-            #    ishconn.commit()
-
-
     finally:
         # Close the cursor and connection when done
         close_mysql_connection(connection, cursor)
         ishclose(ishconn, ishcur)
-
-
-    
+        
